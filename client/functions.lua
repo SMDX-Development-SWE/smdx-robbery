@@ -1,9 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 function CreatePed()
-    if not Config.PedSettings.enabled then
-        return
-    end
     local settings = Config.PedSettings
     local pedModel = settings["model"]
     local pedCoords = settings["coords"]
