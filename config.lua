@@ -1,8 +1,7 @@
 Config = {}
 
-Config.PedSettings = {
-    enabled = true,
-    model = 'a_m_m_eastsa_01',
-    coords = vector3(123.00, 123.00, 123.00),
-    heading = 18.00,
+Config.Ped = {
+    model = "a_m_y_business_01",
+    coords = vector3(215.76, -810.12, 30.73),
+    heading = 0.0
 }
