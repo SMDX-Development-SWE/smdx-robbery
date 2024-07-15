@@ -44,6 +44,13 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                     notified = true
                 end
                 DoorSystemSetDoorState(doorHash, 1, false, true)
+                if not exports['qb-inventory']:HasItem(Config.LockPickItem) then
+                    lib.notify({
+                        title = 'NO LOCKPICK',
+                        description = 'You have no lockpicks to break open this door...',
+                        type = 'error'
+                    })
+                end
             end
         end
     end)

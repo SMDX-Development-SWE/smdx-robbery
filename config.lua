@@ -1,5 +1,10 @@
 Config = {}
 
+----------------------------------
+-- ITEM USED TO BREAK OPEN DOORS--
+----------------------------------
+Config.LockPickItem = "lockpick"
+
 ------------------
 -- PED SETTINGS --
 ------------------
