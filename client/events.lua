@@ -3,10 +3,14 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local waypointSet = false
 local notified = false
 local doorHash = GetHashKey("v_ilev_trevtraildr")
+local doorHash2 = GetHashKey("v_ilev_mm_doorson")
+local doorHash3 = GetHashKey("v_ilev_mm_door")
 local doorCoords = vector3(1973.46, 3815.61, 33.51)
 local targetCoords = vector3(1973.69, 3815.5, 33.43)
 local DoorUnlocked = false
+local Door2Unlocked = false
 local BrokenIn = false
+local BrokenIn2 = false
 local MissionStarted = false
 local targetAdded = false
 
@@ -45,6 +49,39 @@ AddEventHandler('break-open-door', function()
         type = 'success'
     })
     TriggerEvent("smdx-robbery:steal")
+end)
+
+RegisterNetEvent('break-open-door-two')
+AddEventHandler('break-open-door-two', function()
+    BrokenIn2 = true
+    exports['qb-target']:RemoveZone("mich_door")
+    local playerPed = PlayerPedId()
+    
+    RequestAnimDict("missheistdockssetup1ig_13@kick_idle")
+    while not HasAnimDictLoaded("missheistdockssetup1ig_13@kick_idle") do
+        Citizen.Wait(100)
+    end
+
+    lib.progressBar({
+        duration = 10000,
+        label = 'Breaking up the door...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'missheistdockssetup1ig_13@kick_idle',
+            clip = 'guard_beatup_kickidle_guard2'
+        },
+    }) DoorUnlocked = true
+    BrokenIn2 = true
+    lib.notify({
+        title = 'GREAT!',
+        description = 'You broke the door open, now go inside and look for items to steal',
+        type = 'success'
+    })
+    TriggerEvent("smdx-robbery:stealtwo")
 end)
 
 RegisterNetEvent('talk-rob-ped')
@@ -327,8 +364,38 @@ CreateThread(function()
                     description = 'Break open the door and keep stealing stuff!',
                     type = 'info'
                 })
-                -- To ensure the notification is not shown repeatedly, you can reset MWSet
                 MWSet = false
+
+                if not Door2Unlocked then
+                    DoorSystemSetDoorState(doorHash2, 1, false, true)
+                    DoorSystemSetDoorState(doorHash3, 1, false, true)
+                else
+                    DoorSystemSetDoorState(doorHash2, 0, false, true)
+                    DoorSystemSetDoorState(doorHash3, 0, false, true)
+                end
+
+                if not BrokenIn2 and MissionStarted then
+                    exports['qb-target']:AddBoxZone("mich_door", vector3(-817.09, 178.03, 71.23), 1.5, 1.6, {
+                        name = "mich_door",
+                        heading = 12.0,
+                        debugPoly = false,
+                        minZ = 36.7,
+                        maxZ = 38.9,
+                    }, {
+                        options = {
+                            {
+                                num = 1,
+                                type = "client",
+                                event = "break-open-door-two",
+                                icon = 'fas fa-lock',
+                                label = 'Break open the door',
+                                targeticon = 'fas fa-lock',
+                            }
+                        },
+                        distance = 2.5,
+                    })
+                    BrokenIn2 = true
+                end
             end
         end
     end
