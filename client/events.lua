@@ -37,6 +37,11 @@ AddEventHandler('break-open-door', function()
         },
     }) DoorUnlocked = true
     BrokenIn = true
+    lib.notify({
+        title = 'GREAT!',
+        description = 'You broke the door open, now go inside and look for items to steal',
+        type = 'success'
+    })
 end)
 
 RegisterNetEvent('talk-rob-ped')
@@ -83,25 +88,29 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                 end
     
                 if not BrokenIn and MissionStarted then
-                    exports['qb-target']:AddBoxZone("door_break", vector3(1973.69, 3815.5, 33.43) {
-                        options = {
-                            {
-                                name = "door_break",
-                                type = "client",
-                                event = "talk-rob-ped",
-                                icon = "fas fa-user",
-                                label = Config.Translate.target.break_open_door,
-                                heading = 12.0,
-                                minZ = 36.7,
-                                maxZ = 38.9,
-                            },
-                        },
-                        distance = 2.0
+                    exports['qb-target']:AddBoxZone("trev_door", vector3(1973.69, 3815.5, 32.43), 1.5, 1.6, {
+                    name = "trev_door",
+                    heading = 12.0,
+                    debugPoly = false,
+                    minZ = 36.7,
+                    maxZ = 38.9,
+                    }, {
+                    options = {
+                        {
+                        num = 1,
+                        type = "client",
+                        event = "break-open-door",
+                        icon = 'fas fa-lock',
+                        label = 'Break open the door',
+                        targeticon = 'fas fa-lock',
+                        }
+                    },
+                    distance = 2.5,
                     })
-                    BrokenIn = true  -- Assuming BrokenIn should be set to true after adding the box zone
+                    BrokenIn = true
                 end
             else
-                notified = false  -- Reset notified if player moves away from the marker
+                notified = false
             end
         end
     end)
