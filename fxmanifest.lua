@@ -23,5 +23,6 @@ server_scripts {
 }
 
 dependency {
-    'ox_lib'
+    'ox_lib',
+    'ox_target'
 }

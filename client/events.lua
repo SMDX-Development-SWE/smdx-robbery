@@ -4,9 +4,39 @@ local waypointSet = false
 local notified = false
 local doorHash = GetHashKey("v_ilev_trevtraildr")
 local doorCoords = vector3(1973.46, 3815.61, 33.51)
+local targetCoords = vector3(1973.69, 3815.5, 33.43)
+local DoorUnlocked = false
+local BrokenIn = false
+local MissionStarted = false
+local targetAdded = false
 
 CreateThread(function()
     AddDoorToSystem(doorHash, doorHash, doorCoords.x, doorCoords.y, doorCoords.z, false, false, false)
+end)
+
+RegisterNetEvent('break-open-door')
+AddEventHandler('break-open-door', function()
+    local playerPed = PlayerPedId()
+    
+    RequestAnimDict("missheistdockssetup1ig_13@kick_idle")
+    while not HasAnimDictLoaded("missheistdockssetup1ig_13@kick_idle") do
+        Citizen.Wait(100)
+    end
+
+    lib.progressBar({
+        duration = 10000,
+        label = 'Breaking up the door...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'missheistdockssetup1ig_13@kick_idle',
+            clip = 'guard_beatup_kickidle_guard2'
+        },
+    }) DoorUnlocked = true
+    BrokenIn = true
 end)
 
 RegisterNetEvent('talk-rob-ped')
@@ -25,6 +55,8 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
         SetNewWaypoint(1973.73, 3815.08)
         waypointSet = true
     end
+    MissionStarted = true
+
     CreateThread(function()
         while true do
             Wait(1000)
@@ -43,15 +75,37 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                     })
                     notified = true
                 end
-                DoorSystemSetDoorState(doorHash, 1, false, true)
-                if not exports['qb-inventory']:HasItem(Config.LockPickItem) then
-                    lib.notify({
-                        title = 'NO LOCKPICK',
-                        description = 'You have no lockpicks to break open this door...',
-                        type = 'error'
-                    })
+                if not DoorUnlocked then
+                    DoorSystemSetDoorState(doorHash, 1, false, true)
                 else
-                    exports['qb-core']:DrawText('[E] - Break open door', 'left')
+                    DoorSystemSetDoorState(doorHash, 0, false, true)
+                end
+                if not BrokenIn and MissionStarted then
+                    if not targetAdded then
+                        exports['qb-target']:AddBoxZone("door_target", targetCoords, 1.0, 1.0, {
+                            name = "door_target",
+                            heading = 0,
+                            debugPoly = false,
+                            minZ = targetCoords.z - 1.0,
+                            maxZ = targetCoords.z + 1.0,
+                        }, {
+                            options = {
+                                {
+                                    type = "client",
+                                    event = "break-open-door",
+                                    icon = "fas fa-door-open",
+                                    label = Config.Translate.target.break_open_door,
+                                },
+                            },
+                            distance = 2.0
+                        })
+                        targetAdded = true
+                    end
+                else
+                    if targetAdded then
+                        exports['qb-target']:RemoveZone("door_target")
+                        targetAdded = false
+                    end
                 end
             end
         end
