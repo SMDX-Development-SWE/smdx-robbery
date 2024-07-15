@@ -2,7 +2,17 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local pedSpawned = false
 
+CreateThread(function()
+    while true do
+        Wait(1000)
 
+        local ped = Config.PedSettings.model
+        local xPlayer = PlayerPedId()
+        local playerCoords = GetEntityCoords(xPlayer)
+        local pedCoords = Config.PedSettings.coords
+        local dst = #(playerCoords - pedCoords)
+    end
+end)
 
 
 
@@ -26,6 +36,6 @@ local function spawnPed()
     end
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     spawnPed()
 end)

@@ -9,3 +9,12 @@ Config.PedSettings = {
     coords = vector3(1774.51, -1617.64, 111.59),
     heading = 289.01,
 }
+
+-----------------
+-- TRANSLATION --
+-----------------
+Config.Translate = {
+    target = {
+        talk_to_ped = "Talk to Robbery NPC",
+    },
+}

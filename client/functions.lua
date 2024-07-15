@@ -20,4 +20,16 @@ function CreateRobPed()
     local RobPed = CreatePed(0, pedModel, pedCoords, pedHeading, false, false)
     FreezeEntityPosition(RobPed, true)
     SetEntityInvincible(RobPed, true)
+
+    exports['qb-target']:AddTargetEntity(RobPed, {
+        options = {
+            {
+                type = "client",
+                event = "talk-rob-ped",
+                icon = "fas fa-user",
+                label = Config.Translate.target.talk_to_ped
+            },
+        },
+        distance = 2.0
+    })
 end
