@@ -16,6 +16,7 @@ Config.PedSettings = {
 Config.Translate = {
     target = {
         talk_to_ped = "Talk to Robbery NPC",
+        break_open_door = "Break open the door",
     },
     start_menu = {
         title = "ROBBERY",
