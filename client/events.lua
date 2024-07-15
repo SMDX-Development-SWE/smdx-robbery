@@ -50,6 +50,8 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                         description = 'You have no lockpicks to break open this door...',
                         type = 'error'
                     })
+                else
+                    exports['qb-core']:DrawText('[E] - Break open door', 'left')
                 end
             end
         end
