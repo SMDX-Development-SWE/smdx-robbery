@@ -1,6 +1,12 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-function CreatePed()
+------------------
+-- [CREATE PED] --
+------------------
+function CreateRobPed()
+    if not Config.PedSettings["enabled"] then
+        return
+    end
     local settings = Config.PedSettings
     local pedModel = settings["model"]
     local pedCoords = settings["coords"]
@@ -11,7 +17,7 @@ function CreatePed()
         Wait(0)
     end
 
-    local Ped = CreatePed(0, pedModel, pedCoords, pedHeading, false, false)
-    FreezeEntityPosition(Ped, true)
-    SetEntityInvincible(Ped, true)
+    local RobPed = CreatePed(0, pedModel, pedCoords, pedHeading, false, false)
+    FreezeEntityPosition(RobPed, true)
+    SetEntityInvincible(RobPed, true)
 end

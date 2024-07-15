@@ -1,9 +1,31 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 local pedSpawned = false
-local spawnPed = Config.PedSettings.enabled
 
-if spawnPed and not pedSpawned then
-    CreatePed()
-    pedSpawned = true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- [SPAWN PED] --
+local function spawnPed()
+    if not pedSpawned then
+        CreateRobPed()
+        pedSpawned = true
+    end
 end
+
+Citizen.CreateThread(function()
+    spawnPed()
+end)
