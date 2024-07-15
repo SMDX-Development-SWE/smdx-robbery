@@ -60,12 +60,12 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
     CreateThread(function()
         while true do
             Wait(1000)
-
+    
             local player = PlayerPedId()
             local playerCoords = GetEntityCoords(player)
             local markerPos = vector3(1973.73, 3815.08, 33.43)
             local dst = #(playerCoords - markerPos)
-
+    
             if dst <= 3.0 then
                 if not notified then
                     lib.notify({
@@ -75,16 +75,33 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                     })
                     notified = true
                 end
+    
                 if not DoorUnlocked then
                     DoorSystemSetDoorState(doorHash, 1, false, true)
                 else
                     DoorSystemSetDoorState(doorHash, 0, false, true)
                 end
+    
                 if not BrokenIn and MissionStarted then
-                    exports.ox_target:addBoxZone(
-                        coords = vector3(123.00, 123.00, 123.00)
-                    )
+                    exports['qb-target']:AddBoxZone("door_break", vector3(1973.69, 3815.5, 33.43) {
+                        options = {
+                            {
+                                name = "door_break",
+                                type = "client",
+                                event = "talk-rob-ped",
+                                icon = "fas fa-user",
+                                label = Config.Translate.target.break_open_door,
+                                heading = 12.0,
+                                minZ = 36.7,
+                                maxZ = 38.9,
+                            },
+                        },
+                        distance = 2.0
+                    })
+                    BrokenIn = true  -- Assuming BrokenIn should be set to true after adding the box zone
                 end
+            else
+                notified = false  -- Reset notified if player moves away from the marker
             end
         end
     end)
