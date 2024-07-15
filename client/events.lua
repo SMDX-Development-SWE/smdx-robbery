@@ -81,31 +81,9 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                     DoorSystemSetDoorState(doorHash, 0, false, true)
                 end
                 if not BrokenIn and MissionStarted then
-                    if not targetAdded then
-                        exports['qb-target']:AddBoxZone("door_target", targetCoords, 1.0, 1.0, {
-                            name = "door_target",
-                            heading = 0,
-                            debugPoly = false,
-                            minZ = targetCoords.z - 1.0,
-                            maxZ = targetCoords.z + 1.0,
-                        }, {
-                            options = {
-                                {
-                                    type = "client",
-                                    event = "break-open-door",
-                                    icon = "fas fa-door-open",
-                                    label = Config.Translate.target.break_open_door,
-                                },
-                            },
-                            distance = 2.0
-                        })
-                        targetAdded = true
-                    end
-                else
-                    if targetAdded then
-                        exports['qb-target']:RemoveZone("door_target")
-                        targetAdded = false
-                    end
+                    exports.ox_target:addBoxZone(
+                        coords = vector3(123.00, 123.00, 123.00)
+                    )
                 end
             end
         end
