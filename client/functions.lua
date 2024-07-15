@@ -33,3 +33,20 @@ function CreateRobPed()
         distance = 2.0
     })
 end
+
+function AddBlip()
+    local enabled = Config.BlipSettings.enabled
+    if not enabled then
+        return
+    end
+    local settings = Config.BlipSettings
+    local blip = AddBlipForCoord(settings["coords"])
+    SetBlipSprite(blip, settings["sprite"])
+    SetBlipDisplay(blip, settings["display"])
+    SetBlipScale(blip, settings["scale"])
+    SetBlipColour(blip, settings["color"])
+    SetBlipAsShortRange(blip, settings["shortRange"])
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(settings["label"])
+    EndTextCommandSetBlipName(blip)
+end

@@ -15,6 +15,20 @@ Config.PedSettings = {
     heading = 289.01,
 }
 
+-------------------
+-- BLIP SETTINGS --
+-------------------
+Config.BlipSettings = {
+    enabled = true,
+    coords = vector3(1776.19, -1617.19, 112.37),
+    label = "Robbery Mission",
+    sprite = 84,
+    color = 1,
+    display = 4,
+    scale = 0.8,
+    shortRange = true,
+}
+
 -----------------
 -- TRANSLATION --
 -----------------

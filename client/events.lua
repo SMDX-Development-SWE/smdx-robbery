@@ -204,7 +204,7 @@ RegisterNetEvent("steal-item-one")
 AddEventHandler("steal-item-one", function()
     exports['qb-target']:RemoveZone("trev_search1")
     lib.progressBar({
-        duration = 10000,
+        duration = 2000,
         label = 'Stealing Items...',
         useWhileDead = false,
         canCancel = true,
@@ -228,7 +228,7 @@ RegisterNetEvent("steal-item-two")
 AddEventHandler("steal-item-two", function()
     exports['qb-target']:RemoveZone("trev_search2")
     lib.progressBar({
-        duration = 10000,
+        duration = 2000,
         label = 'Stealing Items...',
         useWhileDead = false,
         canCancel = true,
@@ -252,7 +252,7 @@ RegisterNetEvent("steal-item-three")
 AddEventHandler("steal-item-three", function()
     exports['qb-target']:RemoveZone("trev_search3")
     lib.progressBar({
-        duration = 10000,
+        duration = 2000,
         label = 'Stealing Items...',
         useWhileDead = false,
         canCancel = true,
@@ -276,7 +276,7 @@ RegisterNetEvent("steal-item-four")
 AddEventHandler("steal-item-four", function()
     exports['qb-target']:RemoveZone("trev_search4")
     lib.progressBar({
-        duration = 10000,
+        duration = 2000,
         label = 'Stealing Items...',
         useWhileDead = false,
         canCancel = true,
@@ -313,7 +313,9 @@ CreateThread(function()
                 SetNewWaypoint(-817.2, 178.04)
                 MWSet = true
             end
+        end
 
+        if MWSet then
             local player = PlayerPedId()
             local plyCoords = GetEntityCoords(player)
             local WPCoords = vector3(-817.22, 178.0, 72.23)
@@ -325,6 +327,8 @@ CreateThread(function()
                     description = 'Break open the door and keep stealing stuff!',
                     type = 'info'
                 })
+                -- To ensure the notification is not shown repeatedly, you can reset MWSet
+                MWSet = false
             end
         end
     end

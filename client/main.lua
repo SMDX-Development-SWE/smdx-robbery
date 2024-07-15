@@ -13,3 +13,7 @@ end
 CreateThread(function()
     spawnPed()
 end)
+
+Citizen.CreateThread(function()
+    AddBlip()
+end)
