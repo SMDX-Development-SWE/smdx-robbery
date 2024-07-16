@@ -5,7 +5,17 @@ Config = {}
 ----------------------------------
 Config.LockPickItem = "lockpick"
 
+-------------------
+-- REWARD AMOUNT --
+-------------------
 Config.RewardAmount = 1000
+Config.RewardType = "cash" -- Choose between cash/bank
+
+Config.UseItemRewards = true -- Set this to true if you want to receive items as reward aswell
+Config.RewardItems = {
+    "meth",
+    "weapon_crowbar"
+}
 
 ------------------
 -- PED SETTINGS --
