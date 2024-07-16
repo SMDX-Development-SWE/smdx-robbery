@@ -18,6 +18,7 @@ local Door2Unlocked = false
 local BrokenIn = false
 local BrokenIn2 = false
 local MissionStarted = false
+local MissionEnded = false
 local MichaelMission = false
 local targetAdded = false
 
@@ -107,7 +108,11 @@ end)
 --------------------------------------------
 RegisterNetEvent('talk-rob-ped')
 AddEventHandler('talk-rob-ped', function()
-    lib.showContext("rob_menu")
+    if not MissionStarted then
+        lib.showContext("rob_menu")
+    else
+        lib.showContext("rob_end_menu")
+    end
 end)
 
 -------------------------------------------
@@ -696,5 +701,21 @@ lib.registerContext({
                 lib.hideContext()
             end,
         }
+    }
+})
+
+lib.registerContext({
+    id = 'rob_end_menu',
+    title = Config.Translate.start_menu.title,
+    options = {
+        {
+            title = Config.Translate.start_menu.exit_btn,
+            description = Config.Translate.start_menu.exit_desc,
+            icon = 'xmark',
+            onSelect = function()
+                lib.hideContext()
+                MissionEnded = true
+            end,
+        },
     }
 })
