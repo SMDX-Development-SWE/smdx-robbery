@@ -266,10 +266,10 @@ RegisterNetEvent("smdx-robbery:stealtwo")
 AddEventHandler("smdx-robbery:stealtwo", function()
     local player = PlayerPedId()
     local plyCoords = GetEntityCoords(player)
-    local coords1 = vector3(-811.32, 178.66, 72.15)
-    local coords2 = vector3(-804.69, 177.52, 72.83)
-    local coords3 = vector3(-799.83, 177.2, 72.83)
-    local coords4 = vector3(-797.96, 187.68, 72.61)
+    local coords1 = vector3(-811.32, 178.66, 71.15)
+    local coords2 = vector3(-804.69, 177.52, 71.83)
+    local coords3 = vector3(-799.83, 177.2, 71.83)
+    local coords4 = vector3(-797.96, 187.68, 71.61)
 
     local ItemOneStolen = false
     local ItemTwoStolen = false
@@ -654,3 +654,47 @@ end)
 ---------------------------------------------------------
 -- GET'S CALLED AFTER STEALING EVERYTHING AT MICHAEL'S --
 ---------------------------------------------------------
+RegisterNetEvent("smdx-robbery:Finish")
+AddEventHandler("smdx-robbery:Finish", function()
+    local notifyShown = false
+    local WayPSet = false
+
+    if not notifyShown then
+        lib.notify({
+            title = 'RETURN',
+            description = 'You got everything, now return to the robbery guy to get paid!',
+            type = 'success'
+        })
+        notifyShown = true
+    end
+    if not WayPSet then
+        SetNewWaypoint(1775.56, -1617.45)
+        WayPSet = true
+    end
+end)
+
+----------------
+-- START MENU --
+----------------
+lib.registerContext({
+    id = 'rob_menu',
+    title = Config.Translate.start_menu.title,
+    options = {
+        {
+            title = Config.Translate.start_menu.btn_title,
+            description = Config.Translate.start_menu.btn_desc,
+            icon = 'sack-dollar',
+            onSelect = function()
+            TriggerEvent('smdx-robbery:MissionStarted')
+            end,
+        },
+        {
+            title = Config.Translate.start_menu.exit_btn,
+            description = Config.Translate.start_menu.exit_desc,
+            icon = 'xmark',
+            onSelect = function()
+                lib.hideContext()
+            end,
+        }
+    }
+})

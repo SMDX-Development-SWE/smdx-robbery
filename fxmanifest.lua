@@ -12,7 +12,6 @@ shared_scripts {
 }
 
 client_scripts {
-    'client/menu.lua',
     'client/events.lua',
     'client/functions.lua',
     'client/main.lua'
