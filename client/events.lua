@@ -259,6 +259,9 @@ AddEventHandler("smdx-robbery:steal", function()
     end)
 end)
 
+-----------------------------------------
+-- HANDLES STEALING ITEMS AT MICHAEL'S --
+-----------------------------------------
 RegisterNetEvent("smdx-robbery:stealtwo")
 AddEventHandler("smdx-robbery:stealtwo", function()
     local player = PlayerPedId()
@@ -337,6 +340,9 @@ AddEventHandler("smdx-robbery:stealtwo", function()
     end)
 end)
 
+------------------------------
+-- LOCALE STEAL ITEM CHECKS --
+------------------------------
 local item1Stolen = false
 local item2Stolen = false
 local item3Stolen = false
@@ -347,6 +353,9 @@ local item_2_Stolen = false
 local item_3_Stolen = false
 local item_4_Stolen = false
 
+-------------------------------------------------------
+-- HANDLES THE ACTUALL STEALING OF ITEMS AT TREVOR'S --
+-------------------------------------------------------
 RegisterNetEvent("steal-item-one")
 AddEventHandler("steal-item-one", function()
     exports['qb-target']:RemoveZone("trev_search1")
@@ -443,9 +452,9 @@ AddEventHandler("steal-item-four", function()
     })
 end)
 
--------------------------
--- STEAL ITEMS MICHAEL --
--------------------------
+--------------------------------------------------------
+-- HANDLES THE ACTUALL STEALING OF ITEMS AT MICHAEL'S --
+--------------------------------------------------------
 RegisterNetEvent("steal-item-one-mich")
 AddEventHandler("steal-item-one-mich", function()
     exports['qb-target']:RemoveZone("mich_search1")
@@ -542,6 +551,9 @@ AddEventHandler("steal-item-four-mich", function()
     })
 end)
 
+----------------------------------------------------------------------------------
+-- CHECKS IF ALL ITEMS ARE STOLEN AT MICHAELS AND THEN EXECUTES THE FINAL EVENT --
+----------------------------------------------------------------------------------
 CreateThread(function()
     local notifyShown = false
     while true do
@@ -553,6 +565,9 @@ CreateThread(function()
     end
 end)
 
+---------------------------------------------------------------------------------------------
+-- CHECKS IF ALL ITEMS ARE STOLEN AT TREVOR'S AND THEN EXECUTES THE MICHAEL STEALING EVENT --
+---------------------------------------------------------------------------------------------
 CreateThread(function()
     local notifyShown = false
     while true do
@@ -564,6 +579,9 @@ CreateThread(function()
     end
 end)
 
+--------------------------------------------------------
+-- GET'S CALLED AFTER STEALING EVERYTHING AT TREVOR'S --
+--------------------------------------------------------
 RegisterNetEvent("smdx-robbery:MichaelMission")
 AddEventHandler("smdx-robbery:MichaelMission", function()
     if not notifyShown then
@@ -632,3 +650,7 @@ AddEventHandler("smdx-robbery:MichaelMission", function()
         end)
     end
 end)
+
+---------------------------------------------------------
+-- GET'S CALLED AFTER STEALING EVERYTHING AT MICHAEL'S --
+---------------------------------------------------------
