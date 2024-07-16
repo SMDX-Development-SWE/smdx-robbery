@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'SMDX Development'
 description 'A robbery script created by SMDX Development'
-version '1.0.0'
+version '1.0.1'
 
 shared_scripts {
     '@ox_lib/init.lua',

@@ -7,7 +7,7 @@ local function versionCheckPrint(_type, log)
 end
 
 local function CheckVersion()
-    PerformHttpRequest('https://raw.githubusercontent.com/SMDX-Development-SWE/smdx-robbery/main/version.lua', function(err, text, headers)
+    PerformHttpRequest('https://raw.githubusercontent.com/SMDX-Development-SWE/smdx-robbery/main/version.txt', function(err, text, headers)
         local currentVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
 
         if not text then 
