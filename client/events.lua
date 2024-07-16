@@ -57,7 +57,13 @@ AddEventHandler('break-open-door', function()
             dict = 'missheistdockssetup1ig_13@kick_idle',
             clip = 'guard_beatup_kickidle_guard2'
         },
-    }) 
+    })
+    if Config.UsePolice then
+        local chance = math.random(1, 100)
+        if chance <= Config.PoliceChance then
+            exports['ps-dispatch']:RobberyAlert()
+        end
+    end
     DoorUnlocked = true
     lib.notify({
         title = Config.Translate.trevor_breakin.title,
@@ -94,6 +100,12 @@ AddEventHandler('break-open-door-two', function()
             clip = 'guard_beatup_kickidle_guard2'
         },
     })
+    if Config.UsePolice then
+        local chance = math.random(1, 100)
+        if chance <= Config.PoliceChance then
+            exports['ps-dispatch']:RobberyAlert()
+        end
+    end
     Door2Unlocked = true
     lib.notify({
         title = Config.Translate.michael_breakin.title,

@@ -4,6 +4,9 @@ Config.StartCommand = "startrobbery" -- Command used to open the robbery menu if
 
 Config.LockPickItem = "lockpick" -- Item used to break open doors
 
+Config.UsePolice = true -- true = police will get alerted, false = no alerts to cops. (You need ps-dispatch for this to work)
+Config.PoliceChance = 50 -- The chance that the police get's alarmed (You need ps-dispatch for this to work) | for example, 30 is 30% chance of police getting alerted, 50 is 50% chance and so on. Max is 100 which is 100% chance.
+
 -------------------
 -- REWARD AMOUNT --
 -------------------
