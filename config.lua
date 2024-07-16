@@ -5,6 +5,8 @@ Config = {}
 ----------------------------------
 Config.LockPickItem = "lockpick"
 
+Config.RewardAmount = 1000
+
 ------------------
 -- PED SETTINGS --
 ------------------

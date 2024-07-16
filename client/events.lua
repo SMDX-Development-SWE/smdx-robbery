@@ -108,11 +108,7 @@ end)
 --------------------------------------------
 RegisterNetEvent('talk-rob-ped')
 AddEventHandler('talk-rob-ped', function()
-    if not MissionStarted then
-        lib.showContext("rob_menu")
-    else
-        lib.showContext("rob_end_menu")
-    end
+    lib.showContext("rob_menu")
 end)
 
 -------------------------------------------
@@ -662,7 +658,12 @@ end)
 RegisterNetEvent("smdx-robbery:Finish")
 AddEventHandler("smdx-robbery:Finish", function()
     local notifyShown = false
+    local endNotify = false
     local WayPSet = false
+    local player = PlayerPedId()
+    local pCoords = GetEntityCoords(player)
+    local finishCoords = vector3(1775.21, -1617.45, 112.41)
+    local dst = #(pCoords - finishCoords)
 
     if not notifyShown then
         lib.notify({
@@ -676,6 +677,24 @@ AddEventHandler("smdx-robbery:Finish", function()
         SetNewWaypoint(1775.56, -1617.45)
         WayPSet = true
     end
+
+    CreateThread(function()
+        while true do
+            Wait(1000)
+
+            if dst <= 4.0 then
+                TriggerServerEvent("smdx-robbery:missionDone")
+                if not endNotify then
+                    lib.notify({
+                        title = 'REWARD',
+                        description = 'Good job, come back to me whenever you want more work!',
+                        type = 'success'
+                    })
+                    endNotify = true
+                end
+            end
+        end
+    end)
 end)
 
 ----------------
@@ -701,21 +720,5 @@ lib.registerContext({
                 lib.hideContext()
             end,
         }
-    }
-})
-
-lib.registerContext({
-    id = 'rob_end_menu',
-    title = Config.Translate.start_menu.title,
-    options = {
-        {
-            title = Config.Translate.start_menu.exit_btn,
-            description = Config.Translate.start_menu.exit_desc,
-            icon = 'xmark',
-            onSelect = function()
-                lib.hideContext()
-                MissionEnded = true
-            end,
-        },
     }
 })
