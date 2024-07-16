@@ -2,10 +2,10 @@
 - This is a simple and easy robbery script, made for the QBCore framework by SMDX Development.
 
 # Latest Update
-- Script creation completed!
+- Added support for ps-dispatch
 
 # Upcoming
-- Support for ps-dispatch
+- More Robbery Locations
 
 # Dependencies
 - ox_lib
