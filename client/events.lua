@@ -46,8 +46,8 @@ AddEventHandler('break-open-door', function()
     end
 
     lib.progressBar({
-        duration = 10000,
-        label = 'Breaking up the door...',
+        duration = Config.ProgTime.trevor_breakin,
+        label = Config.Translate.progress.breaking_trevor,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -60,8 +60,8 @@ AddEventHandler('break-open-door', function()
     }) 
     DoorUnlocked = true
     lib.notify({
-        title = 'GREAT!',
-        description = 'You broke the door open, now go inside and look for items to steal',
+        title = Config.Translate.trevor_breakin.title,
+        description = Config.Translate.trevor_breakin.desc,
         type = 'success'
     })
     TriggerEvent("smdx-robbery:steal")
@@ -82,8 +82,8 @@ AddEventHandler('break-open-door-two', function()
     end
 
     lib.progressBar({
-        duration = 10000,
-        label = 'Breaking up the door...',
+        duration = Config.ProgTime.michael_breakin,
+        label = Config.Translate.progress.breaking_michael,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -96,8 +96,8 @@ AddEventHandler('break-open-door-two', function()
     })
     Door2Unlocked = true
     lib.notify({
-        title = 'GREAT!',
-        description = 'You broke the door open, now go inside and look for items to steal',
+        title = Config.Translate.michael_breakin.title,
+        description = Config.Translate.michael_breakin.desc,
         type = 'success'
     })
     TriggerEvent("smdx-robbery:stealtwo")
@@ -117,8 +117,8 @@ end)
 RegisterNetEvent('smdx-robbery:MissionStarted')
 AddEventHandler('smdx-robbery:MissionStarted', function()
     lib.notify({
-        title = 'STEP 1',
-        description = 'Go to the marked location on your map.',
+        title = Config.Translate.missionstarted.title,
+        description = Config.Translate.missionstarted.desc,
         type = 'info'
     })
     if not waypointSet then
@@ -139,8 +139,8 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
             if dst <= 3.0 then
                 if not notified then
                     lib.notify({
-                        title = 'STEP 2',
-                        description = 'Break open the door!',
+                        title = Config.Translate.missionstarted.title2,
+                        description = Config.Translate.missionstarted.desc2,
                         type = 'info'
                     })
                     notified = true
@@ -166,7 +166,7 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
                                 type = "client",
                                 event = "break-open-door",
                                 icon = 'fas fa-lock',
-                                label = 'Break open the door',
+                                label = Config.Translate.target.break_open_door,
                                 targeticon = 'fas fa-lock',
                             }
                         },
@@ -210,7 +210,7 @@ AddEventHandler("smdx-robbery:steal", function()
                     type = "client",
                     event = event,
                     icon = 'fas fa-lock',
-                    label = 'Steal Item',
+                    label = Config.Translate.target.steal_item,
                     targeticon = 'fas fa-lock',
                 }
             },
@@ -291,7 +291,7 @@ AddEventHandler("smdx-robbery:stealtwo", function()
                     type = "client",
                     event = event,
                     icon = 'fas fa-lock',
-                    label = 'Steal Item',
+                    label = Config.Translate.target.steal_item,
                     targeticon = 'fas fa-lock',
                 }
             },
@@ -361,8 +361,8 @@ RegisterNetEvent("steal-item-one")
 AddEventHandler("steal-item-one", function()
     exports['qb-target']:RemoveZone("trev_search1")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -375,8 +375,8 @@ AddEventHandler("steal-item-one", function()
     })
     item1Stolen = true
     lib.notify({
-        title = 'ITEM STOLEN',
-        description = 'You stole one item!',
+        title = Config.Translate.itemsteal.title,
+        description = Config.Translate.itemsteal.desc,
         type = 'success'
     })
 end)
@@ -385,8 +385,8 @@ RegisterNetEvent("steal-item-two")
 AddEventHandler("steal-item-two", function()
     exports['qb-target']:RemoveZone("trev_search2")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -399,8 +399,8 @@ AddEventHandler("steal-item-two", function()
     })
     item2Stolen = true
     lib.notify({
-        title = 'ITEM STOLEN',
-        description = 'You stole one item!',
+        title = Config.Translate.itemsteal.title,
+        description = Config.Translate.itemsteal.desc,
         type = 'success'
     })
 end)
@@ -409,8 +409,8 @@ RegisterNetEvent("steal-item-three")
 AddEventHandler("steal-item-three", function()
     exports['qb-target']:RemoveZone("trev_search3")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -423,8 +423,8 @@ AddEventHandler("steal-item-three", function()
     })
     item3Stolen = true
     lib.notify({
-        title = 'ITEM STOLEN',
-        description = 'You stole one item!',
+        title = Config.Translate.itemsteal.title,
+        description = Config.Translate.itemsteal.desc,
         type = 'success'
     })
 end)
@@ -433,8 +433,8 @@ RegisterNetEvent("steal-item-four")
 AddEventHandler("steal-item-four", function()
     exports['qb-target']:RemoveZone("trev_search4")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -447,8 +447,8 @@ AddEventHandler("steal-item-four", function()
     })
     item4Stolen = true
     lib.notify({
-        title = 'ITEM STOLEN',
-        description = 'You stole one item!',
+        title = Config.Translate.itemsteal.title,
+        description = Config.Translate.itemsteal.desc,
         type = 'success'
     })
 end)
@@ -460,8 +460,8 @@ RegisterNetEvent("steal-item-one-mich")
 AddEventHandler("steal-item-one-mich", function()
     exports['qb-target']:RemoveZone("mich_search1")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -484,8 +484,8 @@ RegisterNetEvent("steal-item-two-mich")
 AddEventHandler("steal-item-two-mich", function()
     exports['qb-target']:RemoveZone("mich_search2")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -508,8 +508,8 @@ RegisterNetEvent("steal-item-three-mich")
 AddEventHandler("steal-item-three-mich", function()
     exports['qb-target']:RemoveZone("mich_search3")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -532,8 +532,8 @@ RegisterNetEvent("steal-item-four-mich")
 AddEventHandler("steal-item-four-mich", function()
     exports['qb-target']:RemoveZone("mich_search4")
     lib.progressBar({
-        duration = 2000,
-        label = 'Stealing Items...',
+        duration = Config.ProgTime.steal_time,
+        label = Config.Translate.progress.stealing_items,
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -587,8 +587,8 @@ RegisterNetEvent("smdx-robbery:MichaelMission")
 AddEventHandler("smdx-robbery:MichaelMission", function()
     if not notifyShown then
         lib.notify({
-            title = 'GREAT',
-            description = 'You have stolen all the items, now move to the next place located on your GPS!',
+            title = Config.Translate.nextstep.title,
+            description = Config.Translate.nextstep.desc,
             type = 'success'
         })
         notifyShown = true
@@ -609,8 +609,8 @@ AddEventHandler("smdx-robbery:MichaelMission", function()
                 if dst <= 3.0 then
                     if not secondNotify then
                         lib.notify({
-                            title = 'BREAK IN',
-                            description = 'Break open the door and keep stealing stuff!',
+                            title = Config.Translate.nextstep.title2,
+                            description = Config.Translate.nextstep.desc2,
                             type = 'info'
                         })
                         secondNotify = true
@@ -638,7 +638,7 @@ AddEventHandler("smdx-robbery:MichaelMission", function()
                                     type = "client",
                                     event = "break-open-door-two",
                                     icon = 'fas fa-lock',
-                                    label = 'Break open the door',
+                                    label = Config.Translate.target.break_open_door,
                                     targeticon = 'fas fa-lock',
                                 }
                             },
@@ -665,8 +665,8 @@ AddEventHandler("smdx-robbery:Finish", function()
 
     if not notifyShown then
         lib.notify({
-            title = 'RETURN',
-            description = 'You got everything, now return to the robbery guy to get paid!',
+            title = Config.Translate.finish.title,
+            description = Config.Translate.finish.desc,
             type = 'success'
         })
         notifyShown = true
@@ -687,13 +687,13 @@ AddEventHandler("smdx-robbery:Finish", function()
                 if not endNotify then
                     TriggerServerEvent("smdx-robbery:missionDone")
                     lib.notify({
-                        title = 'REWARD',
-                        description = 'Good job, come back to me whenever you want more work!',
+                        title = Config.Translate.reward.title,
+                        description = Config.Translate.reward.desc,
                         type = 'success'
                     })
                     endNotify = true
                 end
-                break -- Exit the loop once the notification has been shown
+                break
             end
         end
     end)
@@ -724,3 +724,12 @@ lib.registerContext({
         }
     }
 })
+
+local command = Config.StartCommand
+
+RegisterCommand(command, function()
+    if Config.PedSettings.enabled then
+        return
+    end
+    lib.showContext("rob_menu")
+end)
