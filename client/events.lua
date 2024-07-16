@@ -3,19 +3,24 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local waypointSet = false
 local notified = false
 local doorHash = GetHashKey("v_ilev_trevtraildr")
-local doorHash2 = GetHashKey("v_ilev_mm_doorson")
-local doorHash3 = GetHashKey("v_ilev_mm_door")
+local doorHash2 = GetHashKey("v_ilev_mm_doorm_l")
+local doorHash3 = GetHashKey("v_ilev_mm_doorm_r")
 local doorCoords = vector3(1973.46, 3815.61, 33.51)
+local doorCoords2 = vector3(-816.65, 178.46, 72.23)
+local doorCoords3 = vector3(-816.55, 177.87, 72.23)
 local targetCoords = vector3(1973.69, 3815.5, 33.43)
 local DoorUnlocked = false
 local Door2Unlocked = false
 local BrokenIn = false
 local BrokenIn2 = false
 local MissionStarted = false
+local MichaelMission = false
 local targetAdded = false
 
 CreateThread(function()
     AddDoorToSystem(doorHash, doorHash, doorCoords.x, doorCoords.y, doorCoords.z, false, false, false)
+    AddDoorToSystem(doorHash2, doorHash2, doorCoords2.x, doorCoords2.y, doorCoords2.z, false, false, false)
+    AddDoorToSystem(doorHash3, doorHash3, doorCoords3.x, doorCoords3.y, doorCoords3.z, false, false, false)
 end)
 
 RegisterNetEvent('break-open-door')
@@ -74,7 +79,7 @@ AddEventHandler('break-open-door-two', function()
             dict = 'missheistdockssetup1ig_13@kick_idle',
             clip = 'guard_beatup_kickidle_guard2'
         },
-    }) DoorUnlocked = true
+    }) Door2Unlocked = true
     BrokenIn2 = true
     lib.notify({
         title = 'GREAT!',
@@ -340,16 +345,23 @@ CreateThread(function()
         Wait(1000)
 
         if item1Stolen and item2Stolen and item3Stolen and item4Stolen and not notifyShown then
-            lib.notify({
-                title = 'GREAT',
-                description = 'You have stolen all the items, now move to the next place located on your GPS!',
-                type = 'success'
-            })
-            notifyShown = true
-            if not MWSet then
-                SetNewWaypoint(-817.2, 178.04)
-                MWSet = true
-            end
+            TriggerEvent("smdx-robbery:MichaelMission")
+        end
+    end
+end)
+
+RegisterNetEvent("smdx-robbery:MichaelMission")
+AddEventHandler("smdx-robbery:MichaelMission", function()
+    if not notifyShown then
+        lib.notify({
+            title = 'GREAT',
+            description = 'You have stolen all the items, now move to the next place located on your GPS!',
+            type = 'success'
+        })
+        notifyShown = true
+        if not MWSet then
+            SetNewWaypoint(-817.2, 178.04)
+            MWSet = true
         end
 
         if MWSet then
@@ -374,7 +386,7 @@ CreateThread(function()
                     DoorSystemSetDoorState(doorHash3, 0, false, true)
                 end
 
-                if not BrokenIn2 and MissionStarted then
+                if not BrokenIn2 and MichaelMission then
                     exports['qb-target']:AddBoxZone("mich_door", vector3(-817.09, 178.03, 71.23), 1.5, 1.6, {
                         name = "mich_door",
                         heading = 12.0,
