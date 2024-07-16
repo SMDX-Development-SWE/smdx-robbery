@@ -652,18 +652,16 @@ AddEventHandler("smdx-robbery:MichaelMission", function()
     end
 end)
 
+local notifyShown = false
+local endNotify = false
+local WayPSet = false
 ---------------------------------------------------------
 -- GET'S CALLED AFTER STEALING EVERYTHING AT MICHAEL'S --
 ---------------------------------------------------------
 RegisterNetEvent("smdx-robbery:Finish")
 AddEventHandler("smdx-robbery:Finish", function()
-    local notifyShown = false
-    local endNotify = false
-    local WayPSet = false
     local player = PlayerPedId()
-    local pCoords = GetEntityCoords(player)
     local finishCoords = vector3(1775.21, -1617.45, 112.41)
-    local dst = #(pCoords - finishCoords)
 
     if not notifyShown then
         lib.notify({
@@ -682,9 +680,12 @@ AddEventHandler("smdx-robbery:Finish", function()
         while true do
             Wait(1000)
 
+            local pCoords = GetEntityCoords(player)
+            local dst = #(pCoords - finishCoords)
+
             if dst <= 4.0 then
-                TriggerServerEvent("smdx-robbery:missionDone")
                 if not endNotify then
+                    TriggerServerEvent("smdx-robbery:missionDone")
                     lib.notify({
                         title = 'REWARD',
                         description = 'Good job, come back to me whenever you want more work!',
@@ -692,6 +693,7 @@ AddEventHandler("smdx-robbery:Finish", function()
                     })
                     endNotify = true
                 end
+                break -- Exit the loop once the notification has been shown
             end
         end
     end)
