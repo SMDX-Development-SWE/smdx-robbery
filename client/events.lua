@@ -1,5 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+
+------------
+-- LOCALS --
+------------
 local waypointSet = false
 local notified = false
 local doorHash = GetHashKey("v_ilev_trevtraildr")
@@ -17,12 +21,18 @@ local MissionStarted = false
 local MichaelMission = false
 local targetAdded = false
 
+-------------------------
+-- ADD THE NEEDED DOOR --
+-------------------------
 CreateThread(function()
     AddDoorToSystem(doorHash, doorHash, doorCoords.x, doorCoords.y, doorCoords.z, false, false, false)
     AddDoorToSystem(doorHash2, doorHash2, doorCoords2.x, doorCoords2.y, doorCoords2.z, false, false, false)
     AddDoorToSystem(doorHash3, doorHash3, doorCoords3.x, doorCoords3.y, doorCoords3.z, false, false, false)
 end)
 
+---------------------------------------------------------------
+-- EVENT THAT HANDLES BREAKING UP THE DOOR AT TREVOR'S PLACE --
+---------------------------------------------------------------
 RegisterNetEvent('break-open-door')
 AddEventHandler('break-open-door', function()
     BrokenIn = true
@@ -46,8 +56,8 @@ AddEventHandler('break-open-door', function()
             dict = 'missheistdockssetup1ig_13@kick_idle',
             clip = 'guard_beatup_kickidle_guard2'
         },
-    }) DoorUnlocked = true
-    BrokenIn = true
+    }) 
+    DoorUnlocked = true
     lib.notify({
         title = 'GREAT!',
         description = 'You broke the door open, now go inside and look for items to steal',
@@ -56,6 +66,9 @@ AddEventHandler('break-open-door', function()
     TriggerEvent("smdx-robbery:steal")
 end)
 
+---------------------------------------------------------------
+-- EVENT THAT HANDLES BREAKING UP THE DOOR AT MICHAELS PLACE --
+---------------------------------------------------------------
 RegisterNetEvent('break-open-door-two')
 AddEventHandler('break-open-door-two', function()
     BrokenIn2 = true
@@ -79,8 +92,8 @@ AddEventHandler('break-open-door-two', function()
             dict = 'missheistdockssetup1ig_13@kick_idle',
             clip = 'guard_beatup_kickidle_guard2'
         },
-    }) Door2Unlocked = true
-    BrokenIn2 = true
+    })
+    Door2Unlocked = true
     lib.notify({
         title = 'GREAT!',
         description = 'You broke the door open, now go inside and look for items to steal',
@@ -89,11 +102,17 @@ AddEventHandler('break-open-door-two', function()
     TriggerEvent("smdx-robbery:stealtwo")
 end)
 
+--------------------------------------------
+-- OPENS THE MENU WHEN TALKING TO THE PED --
+--------------------------------------------
 RegisterNetEvent('talk-rob-ped')
 AddEventHandler('talk-rob-ped', function()
     lib.showContext("rob_menu")
 end)
 
+-------------------------------------------
+-- GETS CALLED WHEN STARTING THE MISSION --
+-------------------------------------------
 RegisterNetEvent('smdx-robbery:MissionStarted')
 AddEventHandler('smdx-robbery:MissionStarted', function()
     lib.notify({
@@ -159,6 +178,9 @@ AddEventHandler('smdx-robbery:MissionStarted', function()
     end)
 end)
 
+----------------------------------------
+-- HANDLES STEALING ITEMS AT TREVOR'S --
+----------------------------------------
 RegisterNetEvent("smdx-robbery:steal")
 AddEventHandler("smdx-robbery:steal", function()
     local player = PlayerPedId()
@@ -237,10 +259,93 @@ AddEventHandler("smdx-robbery:steal", function()
     end)
 end)
 
+RegisterNetEvent("smdx-robbery:stealtwo")
+AddEventHandler("smdx-robbery:stealtwo", function()
+    local player = PlayerPedId()
+    local plyCoords = GetEntityCoords(player)
+    local coords1 = vector3(-811.32, 178.66, 72.15)
+    local coords2 = vector3(-804.69, 177.52, 72.83)
+    local coords3 = vector3(-799.83, 177.2, 72.83)
+    local coords4 = vector3(-797.96, 187.68, 72.61)
+
+    local ItemOneStolen = false
+    local ItemTwoStolen = false
+    local ItemThreeStolen = false
+    local ItemFourStolen = false
+
+    local function addTargetZone(zoneName, coords, event)
+        exports['qb-target']:AddBoxZone(zoneName, coords, 1.5, 1.6, {
+            name = zoneName,
+            heading = 12.0,
+            debugPoly = false,
+            minZ = 36.7,
+            maxZ = 38.9,
+        }, {
+            options = {
+                {
+                    num = 1,
+                    type = "client",
+                    event = event,
+                    icon = 'fas fa-lock',
+                    label = 'Steal Item',
+                    targeticon = 'fas fa-lock',
+                }
+            },
+            distance = 2.5,
+        })
+    end
+
+    CreateThread(function()
+        while not ItemOneStolen or not ItemTwoStolen or not ItemThreeStolen or not ItemFourStolen do
+            Wait(1000)
+
+            local player = PlayerPedId()
+            local plyCoords = GetEntityCoords(player)
+
+            if not ItemOneStolen then
+                local dst1 = #(plyCoords - coords1)
+                if dst1 <= 5.0 then
+                    addTargetZone("mich_search1", coords1, "steal-item-one-mich")
+                    ItemOneStolen = true
+                end
+            end
+
+            if not ItemTwoStolen then
+                local dst2 = #(plyCoords - coords2)
+                if dst2 <= 5.0 then
+                    addTargetZone("mich_search2", coords2, "steal-item-two-mich")
+                    ItemTwoStolen = true
+                end
+            end
+
+            if not ItemThreeStolen then
+                local dst3 = #(plyCoords - coords3)
+                if dst3 <= 5.0 then
+                    addTargetZone("mich_search3", coords3, "steal-item-three-mich")
+                    ItemThreeStolen = true
+                end
+            end
+
+            if not ItemFourStolen then
+                local dst4 = #(plyCoords - coords4)
+                if dst4 <= 5.0 then
+                    addTargetZone("mich_search4", coords4, "steal-item-four-mich")
+                    ItemFourStolen = true
+                end
+            end
+        end
+    end)
+end)
+
 local item1Stolen = false
 local item2Stolen = false
 local item3Stolen = false
 local item4Stolen = false
+
+local item_1_Stolen = false
+local item_2_Stolen = false
+local item_3_Stolen = false
+local item_4_Stolen = false
 
 RegisterNetEvent("steal-item-one")
 AddEventHandler("steal-item-one", function()
@@ -338,9 +443,118 @@ AddEventHandler("steal-item-four", function()
     })
 end)
 
+-------------------------
+-- STEAL ITEMS MICHAEL --
+-------------------------
+RegisterNetEvent("steal-item-one-mich")
+AddEventHandler("steal-item-one-mich", function()
+    exports['qb-target']:RemoveZone("mich_search1")
+    lib.progressBar({
+        duration = 2000,
+        label = 'Stealing Items...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'anim@gangops@facility@servers@bodysearch@',
+            clip = 'player_search'
+        },
+    })
+    item_1_Stolen = true
+    lib.notify({
+        title = 'ITEM STOLEN',
+        description = 'You stole one item!',
+        type = 'success'
+    })
+end)
+
+RegisterNetEvent("steal-item-two-mich")
+AddEventHandler("steal-item-two-mich", function()
+    exports['qb-target']:RemoveZone("mich_search2")
+    lib.progressBar({
+        duration = 2000,
+        label = 'Stealing Items...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'anim@gangops@facility@servers@bodysearch@',
+            clip = 'player_search'
+        },
+    })
+    item_2_Stolen = true
+    lib.notify({
+        title = 'ITEM STOLEN',
+        description = 'You stole one item!',
+        type = 'success'
+    })
+end)
+
+RegisterNetEvent("steal-item-three-mich")
+AddEventHandler("steal-item-three-mich", function()
+    exports['qb-target']:RemoveZone("mich_search3")
+    lib.progressBar({
+        duration = 2000,
+        label = 'Stealing Items...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'anim@gangops@facility@servers@bodysearch@',
+            clip = 'player_search'
+        },
+    })
+    item_3_Stolen = true
+    lib.notify({
+        title = 'ITEM STOLEN',
+        description = 'You stole one item!',
+        type = 'success'
+    })
+end)
+
+RegisterNetEvent("steal-item-four-mich")
+AddEventHandler("steal-item-four-mich", function()
+    exports['qb-target']:RemoveZone("mich_search4")
+    lib.progressBar({
+        duration = 2000,
+        label = 'Stealing Items...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+        },
+        anim = {
+            dict = 'anim@gangops@facility@servers@bodysearch@',
+            clip = 'player_search'
+        },
+    })
+    item_4_Stolen = true
+    lib.notify({
+        title = 'ITEM STOLEN',
+        description = 'You stole one item!',
+        type = 'success'
+    })
+end)
+
 CreateThread(function()
     local notifyShown = false
-    local MWSet = false
+    while true do
+        Wait(1000)
+
+        if item_1_Stolen and item_2_Stolen and item_3_Stolen and item_4_Stolen and not notifyShown then
+            TriggerEvent("smdx-robbery:Finish")
+        end
+    end
+end)
+
+CreateThread(function()
+    local notifyShown = false
     while true do
         Wait(1000)
 
@@ -363,52 +577,58 @@ AddEventHandler("smdx-robbery:MichaelMission", function()
             SetNewWaypoint(-817.2, 178.04)
             MWSet = true
         end
+        MichaelMission = true
 
-        if MWSet then
-            local player = PlayerPedId()
-            local plyCoords = GetEntityCoords(player)
-            local WPCoords = vector3(-817.22, 178.0, 72.23)
-            local dst = #(plyCoords - WPCoords)
-
-            if dst <= 3.0 then
-                lib.notify({
-                    title = 'BREAK IN',
-                    description = 'Break open the door and keep stealing stuff!',
-                    type = 'info'
-                })
-                MWSet = false
-
-                if not Door2Unlocked then
-                    DoorSystemSetDoorState(doorHash2, 1, false, true)
-                    DoorSystemSetDoorState(doorHash3, 1, false, true)
-                else
-                    DoorSystemSetDoorState(doorHash2, 0, false, true)
-                    DoorSystemSetDoorState(doorHash3, 0, false, true)
-                end
-
-                if not BrokenIn2 and MichaelMission then
-                    exports['qb-target']:AddBoxZone("mich_door", vector3(-817.09, 178.03, 71.23), 1.5, 1.6, {
-                        name = "mich_door",
-                        heading = 12.0,
-                        debugPoly = false,
-                        minZ = 36.7,
-                        maxZ = 38.9,
-                    }, {
-                        options = {
-                            {
-                                num = 1,
-                                type = "client",
-                                event = "break-open-door-two",
-                                icon = 'fas fa-lock',
-                                label = 'Break open the door',
-                                targeticon = 'fas fa-lock',
-                            }
-                        },
-                        distance = 2.5,
-                    })
-                    BrokenIn2 = true
+        CreateThread(function()
+            while true do
+                Wait(1000)
+                local player = PlayerPedId()
+                local plyCoords = GetEntityCoords(player)
+                local WPCoords = vector3(-817.22, 178.0, 72.23)
+                local dst = #(plyCoords - WPCoords)
+        
+                if dst <= 3.0 then
+                    if not secondNotify then
+                        lib.notify({
+                            title = 'BREAK IN',
+                            description = 'Break open the door and keep stealing stuff!',
+                            type = 'info'
+                        })
+                        secondNotify = true
+                    end
+        
+                    if not Door2Unlocked then
+                        DoorSystemSetDoorState(doorHash2, 1, false, true)
+                        DoorSystemSetDoorState(doorHash3, 1, false, true)
+                    else
+                        DoorSystemSetDoorState(doorHash2, 0, false, true)
+                        DoorSystemSetDoorState(doorHash3, 0, false, true)
+                    end
+        
+                    if not BrokenIn2 and MichaelMission then
+                        exports['qb-target']:AddBoxZone("mich_door", vector3(-817.09, 178.03, 71.23), 1.5, 1.6, {
+                            name = "mich_door",
+                            heading = 12.0,
+                            debugPoly = false,
+                            minZ = 36.7,
+                            maxZ = 38.9,
+                        }, {
+                            options = {
+                                {
+                                    num = 1,
+                                    type = "client",
+                                    event = "break-open-door-two",
+                                    icon = 'fas fa-lock',
+                                    label = 'Break open the door',
+                                    targeticon = 'fas fa-lock',
+                                }
+                            },
+                            distance = 2.5,
+                        })
+                        BrokenIn2 = true
+                    end
                 end
             end
-        end
+        end)
     end
 end)
